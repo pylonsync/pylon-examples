@@ -1,0 +1,121 @@
+import React from "react";
+import { Link, Image } from "@pylonsync/react";
+import type { Metadata } from "@pylonsync/react";
+
+export const metadata: Metadata = {
+  title: "Blog — Acme",
+  description: "Writing, shipping, and the occasional tangent.",
+};
+
+const POSTS = [
+  {
+    slug: "our-series-a",
+    title: "Acme raises $24M to make the work tools your team won't quit.",
+    excerpt:
+      "We're thrilled to share that we've raised a Series A from Index, with participation from existing investors. Here's what we're going to do with it.",
+    cover: "/blog-1.jpg",
+    author: "Mara Chen",
+    date: "May 2026",
+    tag: "Company",
+  },
+  {
+    slug: "scaling-fast",
+    title: "What we learned scaling Acme from 100 to 50,000 teams.",
+    excerpt:
+      "We refused to hire ahead of revenue. We deleted features. We deprecated integrations our biggest customers didn't use. Here's what changed, what didn't, and the decisions we'd defend at gunpoint.",
+    cover: "/blog-2.jpg",
+    author: "James Patel",
+    date: "April 2026",
+    tag: "Engineering",
+  },
+  {
+    slug: "changelog",
+    title: "April changelog: 23 things we shipped while you were busy.",
+    excerpt:
+      "New: command palette across every surface. Faster: search is 4x quicker. Removed: the duplicate-tab problem on macOS.",
+    cover: "/blog-3.jpg",
+    author: "Eira Nilsson",
+    date: "April 2026",
+    tag: "Changelog",
+  },
+];
+
+export default function BlogPage() {
+  const [feature, ...rest] = POSTS;
+  return (
+    <main className="mx-auto max-w-6xl px-6 pt-20 pb-24 md:pt-28">
+      <span className="text-xs font-medium uppercase tracking-wider text-[var(--color-brand-deep)]">
+        Blog
+      </span>
+      <h1 className="display mt-3 text-4xl text-foreground sm:text-6xl">
+        Writing, shipping, and the occasional tangent.
+      </h1>
+
+      <Link
+        href={`/blog/${feature.slug}`}
+        className="group mt-16 block overflow-hidden rounded-3xl border border-border bg-card transition hover:-translate-y-0.5 hover:shadow-md md:grid md:grid-cols-2"
+      >
+        <Image
+          src={feature.cover}
+          alt=""
+          width={1600}
+          height={900}
+          sizes="(max-width: 768px) 100vw, 600px"
+          className="aspect-[16/9] w-full object-cover md:aspect-auto md:h-full"
+        />
+        <div className="flex flex-col justify-between p-8 md:p-10">
+          <div>
+            <span className="text-xs font-medium uppercase tracking-wider text-[var(--color-brand-deep)]">
+              {feature.tag} · {feature.date}
+            </span>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
+              {feature.title}
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+              {feature.excerpt}
+            </p>
+          </div>
+          <p className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-foreground">
+            By {feature.author}
+            <span aria-hidden className="transition group-hover:translate-x-0.5">
+              →
+            </span>
+          </p>
+        </div>
+      </Link>
+
+      <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
+        {rest.map((p) => (
+          <Link
+            key={p.slug}
+            href={`/blog/${p.slug}`}
+            className="group block overflow-hidden rounded-2xl border border-border bg-card transition hover:-translate-y-0.5 hover:shadow-md"
+          >
+            <Image
+              src={p.cover}
+              alt=""
+              width={1600}
+              height={900}
+              sizes="(max-width: 768px) 100vw, 500px"
+              className="aspect-[16/9] w-full object-cover"
+            />
+            <div className="p-6">
+              <span className="text-xs font-medium uppercase tracking-wider text-[var(--color-brand-deep)]">
+                {p.tag} · {p.date}
+              </span>
+              <h3 className="mt-3 text-xl font-semibold tracking-tight text-foreground">
+                {p.title}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {p.excerpt}
+              </p>
+              <p className="mt-6 text-xs text-muted-foreground">
+                By {p.author}
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </main>
+  );
+}

@@ -1,0 +1,40 @@
+app = "pylon-erp"
+primary_region = "iad"
+
+[build]
+  dockerfile = "../../Dockerfile"
+  [build.args]
+    APP = "examples/erp"
+
+[http_service]
+  internal_port = 4321
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[services]]
+  internal_port = 4322
+  protocol = "tcp"
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+  [[services.ports]]
+    port = 4322
+    handlers = ["tls"]
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 512
+
+[mounts]
+  source = "pylon_data"
+  destination = "/data"
+
+# Dev-mode is intentionally on until an operator sets both:
+#   fly secrets set --app pylon-erp \
+#     PYLON_DEV_MODE=false \
+#     PYLON_CORS_ORIGIN=https://your-frontend.example.com
+# The server refuses to start in non-dev mode without a CORS origin, which
+# would otherwise manifest as a silent restart loop.

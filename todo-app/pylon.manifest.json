@@ -1,0 +1,182 @@
+{
+  "manifest_version": 1,
+  "name": "todo-app",
+  "version": "0.1.0",
+  "entities": [
+    {
+      "name": "User",
+      "fields": [
+        {
+          "name": "email",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "avatarColor",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "passwordHash",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "by_email",
+          "fields": [
+            "email"
+          ],
+          "unique": true
+        }
+      ]
+    },
+    {
+      "name": "Todo",
+      "fields": [
+        {
+          "name": "userId",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "notes",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "done",
+          "type": "bool",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "priority",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "dueAt",
+          "type": "datetime",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "completedAt",
+          "type": "datetime",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "sortKey",
+          "type": "float",
+          "optional": true,
+          "unique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "by_user",
+          "fields": [
+            "userId"
+          ],
+          "unique": false
+        },
+        {
+          "name": "by_user_done",
+          "fields": [
+            "userId",
+            "done"
+          ],
+          "unique": false
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "path": "/",
+      "mode": "ssr",
+      "component": "app/page",
+      "layouts": [
+        "app/layout"
+      ]
+    }
+  ],
+  "queries": [],
+  "actions": [],
+  "policies": [
+    {
+      "name": "user_self",
+      "allowRead": "auth.userId == data.id",
+      "allowInsert": "false",
+      "allowUpdate": "false",
+      "allowDelete": "false",
+      "entity": "User"
+    },
+    {
+      "name": "todo_owner",
+      "allowRead": "auth.userId == data.userId",
+      "allowInsert": "auth.userId == data.userId",
+      "allowUpdate": "auth.userId == data.userId",
+      "allowDelete": "auth.userId == data.userId",
+      "entity": "Todo"
+    }
+  ],
+  "auth": {
+    "user": {
+      "entity": "User",
+      "expose": [],
+      "hide": []
+    },
+    "session": {
+      "expires_in": 2592000,
+      "cookie_cache": {
+        "enabled": false,
+        "max_age": 300,
+        "claims": [
+          "is_admin",
+          "tenant_id"
+        ]
+      }
+    },
+    "org": {
+      "entity": "Org",
+      "member_entity": "OrgMember",
+      "invite_entity": "OrgInvite",
+      "disabled": false
+    },
+    "trusted_origins": []
+  }
+}

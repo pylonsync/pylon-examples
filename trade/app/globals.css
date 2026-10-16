@@ -1,0 +1,91 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@pylonsync/example-ui/tokens.css";
+
+/* Tailwind v4 scans these for class names. Paths are relative to this file
+   (examples/trade/app/globals.css): the SSR app dir, the client app, and the
+   shared example-ui component source. */
+@source "./";
+@source "../client";
+@source "../../_shared/src";
+
+/* Trade is a dark-only dashboard. */
+@theme {
+  --font-sans: "Geist", -apple-system, system-ui, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", monospace;
+
+  --color-background: #08090b;
+  --color-foreground: #e8eaed;
+  --color-card: #0d0f12;
+  --color-card-foreground: #e8eaed;
+  --color-popover: #111419;
+  --color-popover-foreground: #e8eaed;
+  --color-primary: #e8eaed;
+  --color-primary-foreground: #08090b;
+  --color-secondary: #181b21;
+  --color-secondary-foreground: #e8eaed;
+  --color-muted: #15181d;
+  --color-muted-foreground: #8b929c;
+  --color-accent: #161a20;
+  --color-accent-foreground: #e8eaed;
+  --color-destructive: #f26d6d;
+  --color-destructive-foreground: #08090b;
+  --color-border: #1c2026;
+  --color-input: #1c2026;
+  --color-ring: #3a404a;
+
+  --radius-lg: 0.5rem;
+  --radius-md: calc(0.5rem - 2px);
+  --radius-sm: calc(0.5rem - 4px);
+
+  /* Trade tokens */
+  --color-panel: #0d0f12;
+  --color-line: #1c2026;
+  --color-grid: #161a1f;
+  --color-dim: #5e6570;
+  --color-bull: #3ddc97;
+  --color-bear: #f26d6d;
+  --color-accent-warm: #f2b441;
+  --color-series: #4f93ec;
+  --color-heat-mid: #20242b;
+  --color-heat-up: #13824f;
+  --color-heat-down: #b3262d;
+}
+
+html,
+body {
+  height: 100%;
+  color-scheme: dark;
+}
+
+body {
+  font-feature-settings: "tnum" 1, "cv11" 1;
+}
+
+/* A new fill on the tape fades in from the side color. */
+@keyframes fill-in-buy {
+  from { background-color: color-mix(in oklab, var(--color-bull) 12%, transparent); }
+  to { background-color: transparent; }
+}
+@keyframes fill-in-sell {
+  from { background-color: color-mix(in oklab, var(--color-bear) 12%, transparent); }
+  to { background-color: transparent; }
+}
+.fill-in-buy { animation: fill-in-buy 700ms ease-out; }
+.fill-in-sell { animation: fill-in-sell 700ms ease-out; }
+
+/* A price cell flashes the direction of its last change. */
+@keyframes tick-up {
+  from { color: var(--color-bull); }
+  to { color: var(--color-foreground); }
+}
+@keyframes tick-down {
+  from { color: var(--color-bear); }
+  to { color: var(--color-foreground); }
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.live-pulse { animation: live-pulse 1.6s ease-in-out infinite; }

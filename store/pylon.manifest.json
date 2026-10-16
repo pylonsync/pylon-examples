@@ -1,0 +1,592 @@
+{
+  "manifest_version": 1,
+  "name": "store",
+  "version": "0.1.0",
+  "entities": [
+    {
+      "name": "User",
+      "fields": [
+        {
+          "name": "email",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "displayName",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "avatarColor",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "passwordHash",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "by_email",
+          "fields": [
+            "email"
+          ],
+          "unique": true
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "fields": [
+        {
+          "name": "slug",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "description",
+          "type": "richtext",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "brand",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "category",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "price",
+          "type": "float",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "rating",
+          "type": "float",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "stock",
+          "type": "int",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "featured",
+          "type": "bool",
+          "optional": false,
+          "unique": false,
+          "default": false
+        },
+        {
+          "name": "salesCount",
+          "type": "int",
+          "optional": false,
+          "unique": false,
+          "default": 0
+        },
+        {
+          "name": "priceBucket",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "ratingTier",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "sizes",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "tags",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "imageUrl",
+          "type": "string",
+          "optional": true,
+          "unique": false
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "by_slug",
+          "fields": [
+            "slug"
+          ],
+          "unique": true
+        },
+        {
+          "name": "by_category",
+          "fields": [
+            "category"
+          ],
+          "unique": false
+        },
+        {
+          "name": "by_brand",
+          "fields": [
+            "brand"
+          ],
+          "unique": false
+        },
+        {
+          "name": "by_price",
+          "fields": [
+            "price"
+          ],
+          "unique": false
+        }
+      ],
+      "search": {
+        "text": [
+          "name",
+          "description"
+        ],
+        "facets": [
+          "brand",
+          "category",
+          "color",
+          "featured",
+          "priceBucket",
+          "ratingTier"
+        ],
+        "sortable": [
+          "price",
+          "rating",
+          "createdAt",
+          "salesCount"
+        ]
+      },
+      "sync": false
+    },
+    {
+      "name": "CartItem",
+      "fields": [
+        {
+          "name": "userId",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "productId",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "productName",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "productBrand",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "productPrice",
+          "type": "float",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "quantity",
+          "type": "int",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "addedAt",
+          "type": "datetime",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "by_user",
+          "fields": [
+            "userId"
+          ],
+          "unique": false
+        }
+      ]
+    },
+    {
+      "name": "Address",
+      "fields": [
+        {
+          "name": "userId",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "fullName",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "street",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "city",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "postal",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "country",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "isDefault",
+          "type": "bool",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "by_user",
+          "fields": [
+            "userId"
+          ],
+          "unique": false
+        }
+      ]
+    },
+    {
+      "name": "Order",
+      "fields": [
+        {
+          "name": "userId",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "status",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "subtotal",
+          "type": "float",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "itemCount",
+          "type": "int",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "shipName",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "shipStreet",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "shipCity",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "shipPostal",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "shipCountry",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "placedAt",
+          "type": "datetime",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "trackingNumber",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "estimatedDelivery",
+          "type": "datetime",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "by_user",
+          "fields": [
+            "userId"
+          ],
+          "unique": false
+        },
+        {
+          "name": "by_user_placed",
+          "fields": [
+            "userId",
+            "placedAt"
+          ],
+          "unique": false
+        }
+      ]
+    },
+    {
+      "name": "OrderItem",
+      "fields": [
+        {
+          "name": "orderId",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "userId",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "productId",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "productName",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "productBrand",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "unitPrice",
+          "type": "float",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "quantity",
+          "type": "int",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "by_order",
+          "fields": [
+            "orderId"
+          ],
+          "unique": false
+        }
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "path": "/",
+      "mode": "ssr",
+      "component": "app/page",
+      "layouts": [
+        "app/layout"
+      ]
+    },
+    {
+      "path": "/account",
+      "mode": "ssr",
+      "component": "app/account/page",
+      "layouts": [
+        "app/layout"
+      ]
+    },
+    {
+      "path": "/checkout",
+      "mode": "ssr",
+      "component": "app/checkout/page",
+      "layouts": [
+        "app/layout"
+      ]
+    },
+    {
+      "path": "/orders/:id",
+      "mode": "ssr",
+      "component": "app/orders/[id]/page",
+      "layouts": [
+        "app/layout"
+      ]
+    },
+    {
+      "path": "/p/:slug",
+      "mode": "ssr",
+      "component": "app/p/[slug]/page",
+      "layouts": [
+        "app/layout"
+      ]
+    }
+  ],
+  "queries": [],
+  "actions": [],
+  "policies": [
+    {
+      "name": "user_self",
+      "allowRead": "auth.userId != null",
+      "allowInsert": "false",
+      "allowUpdate": "false",
+      "allowDelete": "false",
+      "entity": "User"
+    },
+    {
+      "name": "product_public",
+      "allowRead": "true",
+      "allowInsert": "auth.userId != null",
+      "allowUpdate": "auth.userId != null",
+      "allowDelete": "auth.userId != null",
+      "entity": "Product"
+    },
+    {
+      "name": "cart_owner",
+      "allowRead": "auth.userId != null",
+      "allowInsert": "auth.userId == data.userId",
+      "allowUpdate": "auth.userId != null",
+      "allowDelete": "auth.userId != null",
+      "entity": "CartItem"
+    },
+    {
+      "name": "address_owner",
+      "allowRead": "auth.userId != null",
+      "allowInsert": "auth.userId == data.userId",
+      "allowUpdate": "auth.userId != null",
+      "allowDelete": "auth.userId != null",
+      "entity": "Address"
+    },
+    {
+      "name": "order_owner",
+      "allowRead": "auth.userId != null",
+      "allowInsert": "false",
+      "allowUpdate": "false",
+      "allowDelete": "false",
+      "entity": "Order"
+    },
+    {
+      "name": "order_item_owner",
+      "allowRead": "auth.userId != null",
+      "allowInsert": "false",
+      "allowUpdate": "false",
+      "allowDelete": "false",
+      "entity": "OrderItem"
+    }
+  ],
+  "auth": {
+    "user": {
+      "entity": "User",
+      "expose": [],
+      "hide": []
+    },
+    "session": {
+      "expires_in": 2592000,
+      "cookie_cache": {
+        "enabled": false,
+        "max_age": 300,
+        "claims": [
+          "is_admin",
+          "tenant_id"
+        ]
+      }
+    },
+    "org": {
+      "entity": "Org",
+      "member_entity": "OrgMember",
+      "invite_entity": "OrgInvite",
+      "disabled": false
+    },
+    "trusted_origins": []
+  }
+}

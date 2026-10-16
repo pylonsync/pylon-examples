@@ -1,0 +1,171 @@
+{
+  "manifest_version": 1,
+  "name": "shard-arena",
+  "version": "0.1.0",
+  "entities": [
+    {
+      "name": "Character",
+      "fields": [
+        {
+          "name": "userId",
+          "type": "string",
+          "optional": false,
+          "unique": true
+        },
+        {
+          "name": "x",
+          "type": "int",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "nextGrant",
+          "type": "int",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "indexes": []
+    },
+    {
+      "name": "Item",
+      "fields": [
+        {
+          "name": "characterId",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "grantKey",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "indexes": [
+        {
+          "name": "by_character",
+          "fields": [
+            "characterId"
+          ],
+          "unique": false
+        },
+        {
+          "name": "by_grant",
+          "fields": [
+            "grantKey"
+          ],
+          "unique": true
+        }
+      ]
+    },
+    {
+      "name": "GmAction",
+      "fields": [
+        {
+          "name": "zone",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "userId",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "action",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "indexes": []
+    }
+  ],
+  "routes": [
+    {
+      "path": "/",
+      "mode": "ssr",
+      "component": "app/page",
+      "layouts": [
+        "app/layout"
+      ]
+    }
+  ],
+  "queries": [],
+  "actions": [],
+  "policies": [],
+  "auth": {
+    "user": {
+      "entity": "User",
+      "expose": [],
+      "hide": []
+    },
+    "session": {
+      "expires_in": 2592000,
+      "cookie_cache": {
+        "enabled": false,
+        "max_age": 300,
+        "claims": [
+          "is_admin",
+          "tenant_id"
+        ]
+      }
+    },
+    "org": {
+      "entity": "Org",
+      "member_entity": "OrgMember",
+      "invite_entity": "OrgInvite",
+      "disabled": false
+    },
+    "org_roles": [],
+    "trusted_origins": []
+  },
+  "shards": [
+    {
+      "name": "arena",
+      "wasm": "shards/arena.wasm",
+      "crate": "shards/arena",
+      "codec": "msgpack",
+      "tickRate": 20,
+      "maxInstances": 4,
+      "maxSubscribers": 1000,
+      "idleShutdownSecs": 0
+    },
+    {
+      "name": "frontier",
+      "wasm": "shards/frontier.wasm",
+      "crate": "shards/frontier",
+      "tickRate": 20,
+      "maxInstances": 4,
+      "maxSubscribers": 1000,
+      "idleShutdownSecs": 0
+    },
+    {
+      "name": "range",
+      "wasm": "shards/range.wasm",
+      "crate": "shards/range",
+      "tickRate": 20,
+      "maxInstances": 4,
+      "maxSubscribers": 1000,
+      "idleShutdownSecs": 0
+    },
+    {
+      "name": "zone",
+      "wasm": "shards/zone.wasm",
+      "crate": "shards/zone",
+      "tickRate": 20,
+      "maxInstances": 16,
+      "idleShutdownSecs": 0
+    }
+  ]
+}

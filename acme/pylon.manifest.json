@@ -1,0 +1,162 @@
+{
+  "manifest_version": 1,
+  "name": "acme",
+  "version": "0.1.0",
+  "entities": [
+    {
+      "name": "Lead",
+      "fields": [
+        {
+          "name": "email",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "source",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "message",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        },
+        {
+          "name": "createdAt",
+          "type": "string",
+          "optional": false,
+          "unique": false
+        }
+      ],
+      "indexes": []
+    }
+  ],
+  "routes": [
+    {
+      "path": "/",
+      "mode": "ssr",
+      "component": "app/page",
+      "layouts": [
+        "app/layout"
+      ]
+    },
+    {
+      "path": "/about",
+      "mode": "ssr",
+      "component": "app/about/page",
+      "layouts": [
+        "app/layout"
+      ]
+    },
+    {
+      "path": "/blog",
+      "mode": "ssr",
+      "component": "app/blog/page",
+      "layouts": [
+        "app/layout"
+      ]
+    },
+    {
+      "path": "/blog/changelog",
+      "mode": "ssr",
+      "component": "app/blog/changelog/page",
+      "layouts": [
+        "app/layout"
+      ]
+    },
+    {
+      "path": "/blog/our-series-a",
+      "mode": "ssr",
+      "component": "app/blog/our-series-a/page",
+      "layouts": [
+        "app/layout"
+      ]
+    },
+    {
+      "path": "/blog/scaling-fast",
+      "mode": "ssr",
+      "component": "app/blog/scaling-fast/page",
+      "layouts": [
+        "app/layout"
+      ]
+    },
+    {
+      "path": "/contact",
+      "mode": "ssr",
+      "component": "app/contact/page",
+      "layouts": [
+        "app/layout"
+      ]
+    },
+    {
+      "path": "/pricing",
+      "mode": "ssr",
+      "component": "app/pricing/page",
+      "layouts": [
+        "app/layout"
+      ]
+    }
+  ],
+  "queries": [],
+  "actions": [],
+  "policies": [
+    {
+      "name": "lead_submit",
+      "allowRead": "false",
+      "allowInsert": "true",
+      "allowUpdate": "false",
+      "allowDelete": "false",
+      "entity": "Lead"
+    }
+  ],
+  "auth": {
+    "user": {
+      "entity": "User",
+      "expose": [],
+      "hide": []
+    },
+    "session": {
+      "expires_in": 2592000,
+      "cookie_cache": {
+        "enabled": false,
+        "max_age": 300,
+        "claims": [
+          "is_admin",
+          "tenant_id"
+        ]
+      }
+    },
+    "org": {
+      "entity": "Org",
+      "member_entity": "OrgMember",
+      "invite_entity": "OrgInvite",
+      "disabled": false
+    },
+    "trusted_origins": []
+  },
+  "fonts": [
+    {
+      "family": "Inter",
+      "variable": "--font-sans",
+      "weights": [
+        "400",
+        "500",
+        "600",
+        "700",
+        "800"
+      ],
+      "styles": [
+        "normal"
+      ],
+      "subsets": [
+        "latin"
+      ],
+      "display": "swap",
+      "preload": true,
+      "adjust_font_fallback": true
+    }
+  ]
+}
